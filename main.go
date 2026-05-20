@@ -57,10 +57,7 @@ func maximum(data []int) int {
 // maxChunks returns the maximum number of elements in a chunks.
 func maxChunks(data []int) int {
 	var wg sync.WaitGroup
-
 	var chunkSize int
-	var chunks int
-
 	sliceOfMax := make([]int, CHUNKS)
 
 	if len(data) == 0 {
@@ -72,20 +69,9 @@ func maxChunks(data []int) int {
 		return maximum(data)
 	}
 
-	if len(data)%CHUNKS == 0 {
-		chunkSize = len(data) / CHUNKS
-		chunks = CHUNKS
-	} else {
-		for i := 2; i < SIZE; i++ {
-			if len(data)%i == 0 {
-				chunkSize = len(data) / i
-				chunks = i
-				break
-			}
-		}
-	}
+	chunkSize = len(data) / CHUNKS
 
-	for i := 0; i < chunks; i++ {
+	for i := 0; i < CHUNKS; i++ {
 		index := i * chunkSize
 		chunk := data[index:(index + chunkSize)]
 
@@ -95,9 +81,10 @@ func maxChunks(data []int) int {
 			defer wg.Done()
 
 			max := maximum(chunk)
-			sliceOfMax = append(sliceOfMax, max)
+			sliceOfMax[i] = max
 		}(chunk)
 	}
+
 	wg.Wait()
 
 	maxOfMax := maximum(sliceOfMax)
@@ -105,15 +92,6 @@ func maxChunks(data []int) int {
 }
 
 func main() {
-	if SIZE <= 0 {
-		log.Println("slice size must be greater than zero")
-		return
-	}
-
-	if CHUNKS <= 0 {
-		log.Println("value of CHUNKS must be greater than zero")
-		return
-	}
 
 	fmt.Printf("Генерируем %d целых чисел\n", SIZE)
 	slice := generateRandomElements(SIZE)

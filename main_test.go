@@ -17,7 +17,7 @@ func TestGenerateRandomElements(t *testing.T) {
 	assert.NotNil(t, testSlice)
 }
 
-func TestMaximumAndMaxChunks(t *testing.T) {
+func TestMaximum(t *testing.T) {
 
 	testStruct := []struct {
 		slice  []int
@@ -37,9 +37,24 @@ func TestMaximumAndMaxChunks(t *testing.T) {
 		max := maximum(s.slice)
 		assert.Equal(t, s.result, max)
 
+	}
+}
+
+func TestMaxChunks(t *testing.T) {
+
+	testStruct := []struct {
+		slice  []int
+		result int
+	}{
+		{slice: []int{10, 20, 30, 40, 50, 60, 70, 80}, result: 80},
+		{slice: []int{10, 20, 30, 40, 50, 60, 70, 80, 90}, result: 80},
+		{slice: []int{}, result: 0},
+	}
+
+	for _, s := range testStruct {
+
 		maximum := maxChunks(s.slice)
 		assert.Equal(t, s.result, maximum)
 
-		assert.Equal(t, max, maximum)
 	}
 }
