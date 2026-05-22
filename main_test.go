@@ -19,6 +19,7 @@ func TestGenerateRandomElements(t *testing.T) {
 
 func TestMaximum(t *testing.T) {
 
+	// handling edge cases
 	testStruct := []struct {
 		slice  []int
 		result int
@@ -38,6 +39,28 @@ func TestMaximum(t *testing.T) {
 		assert.Equal(t, s.result, max)
 
 	}
+
+	// testing when the number of elements is equal to CHUNKS
+	testSlice := make([]int, CHUNKS)
+	n := 10
+	for i := range testSlice {
+		testSlice[i] = n
+		n += 10
+	}
+
+	max := maximum(testSlice)
+	assert.Equal(t, 80, max)
+
+	// testing when the number of elements is equal to CHUNKS+1
+	testSliceWhenMoreChunks := make([]int, (CHUNKS + 1))
+	v := 10
+	for i := range testSliceWhenMoreChunks {
+		testSliceWhenMoreChunks[i] = v
+		v += 10
+	}
+
+	max = maximum(testSliceWhenMoreChunks)
+	assert.Equal(t, 90, max)
 }
 
 func TestMaxChunks(t *testing.T) {
@@ -47,7 +70,7 @@ func TestMaxChunks(t *testing.T) {
 		result int
 	}{
 		{slice: []int{10, 20, 30, 40, 50, 60, 70, 80}, result: 80},
-		{slice: []int{10, 20, 30, 40, 50, 60, 70, 80, 90}, result: 80},
+		{slice: []int{10, 20, 30, 40, 50, 60, 70, 80, 90}, result: 90},
 		{slice: []int{}, result: 0},
 	}
 

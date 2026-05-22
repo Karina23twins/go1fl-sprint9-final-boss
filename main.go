@@ -73,7 +73,12 @@ func maxChunks(data []int) int {
 
 	for i := 0; i < CHUNKS; i++ {
 		index := i * chunkSize
+
 		chunk := data[index:(index + chunkSize)]
+
+		if len(data)%CHUNKS != 0 && i == (CHUNKS-1) {
+			chunk = data[index:(index + chunkSize + len(data)%CHUNKS)]
+		}
 
 		wg.Add(1)
 
